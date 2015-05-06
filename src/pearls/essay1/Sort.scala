@@ -30,24 +30,22 @@ object Sort {
   }
   
   def main(args: Array[String]): Unit = {
-    System.gc()
     val runtime = Runtime.getRuntime
+    runtime.gc()
     var memoryBefore = runtime.totalMemory() - runtime.freeMemory() 
     var start = System.currentTimeMillis()
     sortUsingBitmap("resources/pearls/essay1/inputdata.txt")
     var end = System.currentTimeMillis();
     println("소요 시간 : " + (end - start) + " millsec")
-    System.gc()
     var memoryAfter = runtime.totalMemory() - runtime.freeMemory()
     println("Bitmap Usage Memory : " + (memoryAfter - memoryBefore))
     
-    System.gc()
+    runtime.gc()
     memoryBefore = runtime.totalMemory() - runtime.freeMemory()
     start = System.currentTimeMillis()
     mutableQuickSort("resources/pearls/essay1/inputdata.txt")
     end = System.currentTimeMillis();
     println("소요 시간 : " + (end - start) + " millsec")
-    System.gc()
     memoryAfter = runtime.totalMemory() - runtime.freeMemory()
     println("QuickSort Usage Memory : " + (memoryAfter - memoryBefore))
   }
