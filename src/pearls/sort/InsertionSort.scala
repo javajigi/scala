@@ -16,6 +16,6 @@ object InsertionSort {
   
   def main(args: Array[String]): Unit = {
     val sortedValues = sort(Array(3, 2, 6, 0, 9, 8, 1))
-    sortedValues.foreach(println)
+    println(sortedValues.foldLeft("")((s, v) => s + v + ","))
   }
 }
