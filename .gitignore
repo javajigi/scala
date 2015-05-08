@@ -2,3 +2,5 @@
 /.cache
 /project/
 /target/
+/.classpath
+/.project

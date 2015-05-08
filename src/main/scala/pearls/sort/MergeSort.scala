@@ -5,7 +5,8 @@ import scala.collection.mutable.ArrayBuffer
 
 object MergeSort {
   @annotation.tailrec
-  def merge(merged: ArrayBuffer[Int], leftValues: Array[Int], rightValues: Array[Int]): Array[Int] = (leftValues, rightValues) match {
+  def merge(merged: ArrayBuffer[Int], leftValues: Array[Int], rightValues: Array[Int]): Array[Int] = 
+    (leftValues, rightValues) match {
     case (Array(), _) => (merged ++= rightValues.map(x => x.toInt)).toArray
     case (_, Array()) => (merged ++= leftValues.map(x => x.toInt)).toArray
     case (Array(x, _*), Array(y, _*)) => {
