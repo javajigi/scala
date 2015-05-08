@@ -5,7 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <inceptionYear>2008</inceptionYear>
   <properties>
-    <scala.version>2.7.0</scala.version>
+    <scala.version>2.11.6</scala.version>
   </properties>
 
   <repositories>
@@ -25,11 +25,6 @@
   </pluginRepositories>
 
   <dependencies>
-    <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scala.version}</version>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -72,14 +67,16 @@
         <configuration>
           <downloadSources>true</downloadSources>
           <buildcommands>
-            <buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand>
+          	<buildcommand>org.eclipse.m2e.core.maven2Builder</buildcommand>
+            <buildcommand>org.scala-ide.sdt.core.scalabuilder</buildcommand>
           </buildcommands>
           <additionalProjectnatures>
-            <projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature>
+            <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
+            <projectnature>org.scala-ide.sdt.core.scalanature</projectnature>
           </additionalProjectnatures>
           <classpathContainers>
             <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
-            <classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer>
+            <classpathContainer>org.scala-ide.sdt.launching.SCALA_CONTAINER</classpathContainer>
           </classpathContainers>
         </configuration>
       </plugin>
