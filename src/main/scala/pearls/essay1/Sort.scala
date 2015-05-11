@@ -6,12 +6,18 @@ import pearls.support.Utils
 import scala.util.Sorting
 
 object Sort {
+  def changeBit(bitMap: Array[Boolean], position: Int) = {
+    if (position < 0) throw new IllegalArgumentException
+    if (bitMap(position)) throw new IllegalArgumentException
+    bitMap(position) = true
+  }
+  
   def sortUsingBitmap(file: String): Unit = {
     val difference = 1000000
     val bitMap = new Array[Boolean](9000000)
     val lines = Source.fromFile(file).getLines()
     lines.foreach {
-      x => bitMap(x.toInt - difference) = true
+      x => changeBit(bitMap, x.toInt - difference)
     }
     
     Utils.printToFile(new File("resources/pearls/essay1/outputdata.txt")) {
