@@ -13,14 +13,19 @@ object MissFinder {
   private val higherFileName = prefix + "higher.txt"
   private val tempFileName = prefix + "tempdata.txt"
     
+  def getCenter(start: Int, end: Int) = {
+    (start + end)/2
+  }
+  
   def findNo(fileName: String): Int = {
     def findMissedSector(start: Int, end: Int, missedFileName: String): Int = {
       println("start : " + start + " end : " + end)
       
-      if (Source.fromFile(missedFileName).getLines.size == 0)
-        return 289
+      if (end - start == 1 || end - start == 0) {
         
-      val center = start + ((end - start - 1) / 2)
+      }
+        
+      val center = getCenter(start, end)
       var lower = 0
       var higher = 0
       
@@ -46,10 +51,10 @@ object MissFinder {
       Files.delete(new File(tempFileName).toPath())
 
       println("center : " + center + " higher : " + higher + " lower : " + lower)
-      if (end - center > higher)
-        findMissedSector(center, end, higherFileName)
+      if (end - center == higher)
+        findMissedSector(start, center, lowerFileName)
       else
-        findMissedSector(0, lower, lowerFileName)
+        findMissedSector(center, end, higherFileName)
     }
     
     findMissedSector(0, 1000, prefix + fileName)

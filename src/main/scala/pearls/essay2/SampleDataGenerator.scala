@@ -11,7 +11,7 @@ object SampleDataGenerator {
 	val prefix = "resources/pearls/essay2/"
 	
 	def generate(file: String) {
-		val shuffles = Random.shuffle(Range(0, 1000).toList)
+		val shuffles = Random.shuffle(Range(1, 1001).toList)
     val splitedShuffles = shuffles.take(999)
     printToFile(prefix + file, splitedShuffles)
 	}
