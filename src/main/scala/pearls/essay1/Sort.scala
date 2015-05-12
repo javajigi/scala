@@ -20,7 +20,7 @@ object Sort {
       x => changeBit(bitMap, x.toInt - difference)
     }
     
-    Utils.printToFile(new File("resources/pearls/essay1/outputdata.txt")) {
+    Utils.withPrintWriter(new File("resources/pearls/essay1/outputdata.txt")) {
       p => for(i <- bitMap.indices) if(bitMap(i)) p.println(i + difference) 
     }
   }
@@ -30,7 +30,7 @@ object Sort {
     val values = lines.map[Int]( x => x.toInt ).toArray
     Sorting.quickSort(values)
     
-    Utils.printToFile(new File("resources/pearls/essay1/outputdata2.txt")) {
+    Utils.withPrintWriter(new File("resources/pearls/essay1/outputdata2.txt")) {
       p => values.foreach(p.println)
     }
   }

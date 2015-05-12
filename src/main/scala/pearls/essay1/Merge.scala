@@ -27,7 +27,7 @@ object Merge {
 		val leftLines = Source.fromFile(leftFile).getLines().toList
 		val rightLines = Source.fromFile(rightFile).getLines().toList
 		val mergedLines = merge(ListBuffer(), leftLines.sorted, rightLines.sorted)
-		Utils.printToFile(new File("resources/pearls/essay1/outputdata2.txt")) {
+		Utils.withPrintWriter(new File("resources/pearls/essay1/outputdata2.txt")) {
       p => mergedLines.foreach(p.println)
     }
 	}

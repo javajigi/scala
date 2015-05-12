@@ -15,7 +15,7 @@ object SampleDataGenerator {
 	}
 	
 	private def printToFile(file: String, numbers: List[Int]) {
-		Utils.printToFile(new File(file)) {
+		Utils.withPrintWriter(new File(file)) {
       p => numbers.foreach(p.println)
     }
 	}
