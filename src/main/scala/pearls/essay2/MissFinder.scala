@@ -9,12 +9,32 @@ import java.nio.file.Files
 
 object MissFinder {
   private val prefix = "resources/pearls/essay2/"
-  private val lowerFileName = prefix + "lower.txt"
-  private val higherFileName = prefix + "higher.txt"
+  val lowerFileName = prefix + "lower.txt"
+  val higherFileName = prefix + "higher.txt"
   private val tempFileName = prefix + "tempdata.txt"
     
   def getCenter(start: Int, end: Int) = {
     (start + end)/2
+  }
+  
+  def getValue(fileName: String): Int = {
+  	val lines = Source.fromFile(fileName).getLines()
+  	if (lines.isEmpty) 
+  		0
+  	else 
+  		lines.next().toInt
+  }
+  
+  def getMissedValue(): Int = {
+  	getMissedValue(getValue(lowerFileName), getValue(higherFileName))
+  }
+  
+  def getMissedValue(lowerValue: Int, higherValue: Int): Int = {
+  	if (higherValue > 0) {
+  		higherValue - 1
+  	} else {
+  		lowerValue + 1
+  	}
   }
   
   def findNo(fileName: String): Int = {
@@ -22,7 +42,7 @@ object MissFinder {
       println("start : " + start + " end : " + end)
       
       if (end - start == 1 || end - start == 0) {
-        
+        return getMissedValue()
       }
         
       val center = getCenter(start, end)
