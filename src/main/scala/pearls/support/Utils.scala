@@ -15,11 +15,13 @@ object Utils {
     try { op(p) } finally { p.close() }
   }
 
-  def withPrintWriter2(fileName1: String, fileName2: String)(op: (PrintWriter, PrintWriter) => Unit) {
-    withPrintWriter2(new File(fileName1), new File(fileName2))(op)
+  def withPrintWriter2[T](fileName1: String, fileName2: String)(op: (PrintWriter, PrintWriter) => T) = {
+    val p1 = new PrintWriter(new File(fileName1))
+    val p2 = new PrintWriter(new File(fileName2))
+    try { op(p1, p2) } finally { p1.close; p2.close }
   }  
   
-  def withPrintWriter2(f1: File, f2: File)(op: (PrintWriter, PrintWriter) => Unit) {
+  def withPrintWriter2[T](f1: File, f2: File)(op: (PrintWriter, PrintWriter) => T) = {
     val p1 = new PrintWriter(f1)
     val p2 = new PrintWriter(f2)
     try { op(p1, p2) } finally { p1.close; p2.close }
@@ -30,7 +32,7 @@ object Utils {
     try { op(fw) } finally { fw.close() }
   }
   
-  def withFileLines(fileName: String)(op: Iterator[String] => Unit) {
+  def withFileLines[T](fileName: String)(op: Iterator[String] => T) = {
     val source = Source.fromFile(fileName)
     try { op(source.getLines()) } finally { source.close }
   }
