@@ -1,7 +1,8 @@
 package pearls.essay2
 
 import scala.io.Source
-import pearls.support.Utils
+import pearls.support.Utils._
+
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
@@ -9,74 +10,78 @@ import java.nio.file.Files
 
 object MissFinder {
   private val prefix = "resources/pearls/essay2/"
+  private val tempFileName = prefix + "tempdata.txt"
   val lowerFileName = prefix + "lower.txt"
   val higherFileName = prefix + "higher.txt"
-  private val tempFileName = prefix + "tempdata.txt"
-    
+
   def getCenter(start: Int, end: Int) = {
-    (start + end)/2
+    (start + end) / 2
   }
-  
+
   def getValue(fileName: String): Int = {
-  	val lines = Source.fromFile(fileName).getLines()
-  	if (lines.isEmpty) 
-  		0
-  	else 
-  		lines.next().toInt
+    val lines = Source.fromFile(fileName).getLines()
+    if (lines.isEmpty)
+      return 0
+    lines.next().toInt
   }
-  
+
   def getMissedValue(): Int = {
-  	getMissedValue(getValue(lowerFileName), getValue(higherFileName))
+    getMissedValue(getValue(lowerFileName), getValue(higherFileName))
   }
-  
+
   def getMissedValue(lowerValue: Int, higherValue: Int): Int = {
-  	if (higherValue > 0) {
-  		higherValue - 1
-  	} else {
-  		lowerValue + 1
-  	}
+    if (higherValue > 0)
+      return higherValue - 1
+    lowerValue + 1
   }
   
   def findNo(fileName: String): Int = {
-    def findMissedSector(start: Int, end: Int, missedFileName: String): Int = {
-      println("start : " + start + " end : " + end)
-      
-      if (end - start == 1 || end - start == 0) {
-        return getMissedValue()
-      }
-        
-      val center = getCenter(start, end)
+    def copyToWorkingFromOriginal(originalFileName: String) {
+      if (new File(tempFileName).exists)
+        Files.delete(new File(tempFileName).toPath())
+      Files.copy(new File(originalFileName).toPath(), new File(tempFileName).toPath())
+    }
+    
+    def divideHighAndLow(center: Int): Tuple2[Int, Int] = {
       var lower = 0
       var higher = 0
       
-      Files.copy(new File(missedFileName).toPath(), new File(tempFileName).toPath())
-      
-      val lowerPW = new PrintWriter(new File(lowerFileName))
-      val higherPW = new PrintWriter(new File(higherFileName))
       val linesSource = Source.fromFile(tempFileName)
       val lines = linesSource.getLines
-      lines.foreach(line => {
-        if (line.toInt > center) {
-          higher += 1
-          higherPW.println(line)
-        } else {
-          lower += 1
-          lowerPW.println(line)
+      
+      withPrintWriter2(lowerFileName, higherFileName) {
+        (p1, p2) => {
+          lines.foreach(line => {
+            if (line.toInt > center) { 
+              higher += 1; p2.println(line)
+            } else {
+              lower += 1; p1.println(line)
+            }
+          })          
         }
-      })
-
-      lowerPW.close
-      higherPW.close
+      }
+      
       linesSource.close
-      Files.delete(new File(tempFileName).toPath())
+      println(" lower : " + lower + ", center : " + center + ", higher : " + higher)
+      (lower, higher)
+    }
+    
+    def findMissedSector(start: Int, end: Int, originalFileName: String): Int = {
+      if (end - start == 1 || end - start == 0) {
+        return getMissedValue()
+      }
 
-      println("center : " + center + " higher : " + higher + " lower : " + lower)
-      if (end - center == higher)
+      copyToWorkingFromOriginal(originalFileName)
+      
+      val center = getCenter(start, end)
+      val lowAndHigh = divideHighAndLow(center)
+      
+      if (end - center == lowAndHigh._2)
         findMissedSector(start, center, lowerFileName)
       else
         findMissedSector(center, end, higherFileName)
     }
-    
+
     findMissedSector(0, 1000, prefix + fileName)
   }
 

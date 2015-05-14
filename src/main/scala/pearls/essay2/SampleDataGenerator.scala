@@ -5,7 +5,7 @@ import java.io.File
 import scala.Range
 import scala.util.Random
 
-import pearls.support.Utils
+import pearls.support.Utils._
 
 object SampleDataGenerator {
 	val prefix = "resources/pearls/essay2/"
@@ -17,7 +17,7 @@ object SampleDataGenerator {
 	}
 	
 	private def printToFile(file: String, numbers: List[Int]) {
-		Utils.withPrintWriter(new File(file)) {
+		withPrintWriter(file) {
       p => numbers.foreach(p.println)
     }
 	}
