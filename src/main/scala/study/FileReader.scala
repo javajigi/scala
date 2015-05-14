@@ -17,7 +17,7 @@ object FileReader {
     val maxWidth = widthOfLength(longestLine)
 
     val linesWithLength = lines.map { line =>
-        padding(maxWidth, widthOfLength(line)) + line.length + " | " + line
+      padding(maxWidth, widthOfLength(line)) + line.length + " | " + line
     }
 
     linesWithLength.foreach { println }

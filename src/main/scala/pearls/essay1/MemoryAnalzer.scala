@@ -13,7 +13,7 @@ object MemoryAnalzer {
     /* This will return Long.MAX_VALUE if there is no preset limit */
     var maxMemory = Runtime.getRuntime().maxMemory();
     /* Maximum amount of memory the JVM will attempt to use */
-    if (maxMemory == Long.MaxValue) maxMemory = 0 
+    if (maxMemory == Long.MaxValue) maxMemory = 0
     println("Maximum memory (bytes): " + maxMemory);
 
     /* Total memory currently available to the JVM */
@@ -26,7 +26,7 @@ object MemoryAnalzer {
         println("File system root: " + f.getAbsolutePath());
         println("Total space (bytes): " + f.getTotalSpace());
         println("Free space (bytes): " + f.getFreeSpace());
-        println("Usable space (bytes): " + f.getUsableSpace());       
+        println("Usable space (bytes): " + f.getUsableSpace());
       })
   }
 }
