@@ -3,6 +3,7 @@ package pearls.support
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
+import scala.io.Source
 
 object Utils {
   def withPrintWriter(fileName: String)(op: PrintWriter => Unit) {
@@ -27,5 +28,10 @@ object Utils {
   def withFileWriter(f: File)(op: FileWriter => Unit) {
     val fw = new FileWriter(f, true)
     try { op(fw) } finally { fw.close() }
+  }
+  
+  def withFileLines(fileName: String)(op: Iterator[String] => Unit) {
+    val source = Source.fromFile(fileName)
+    try { op(source.getLines()) } finally { source.close }
   }
 }

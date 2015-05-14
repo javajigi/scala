@@ -43,25 +43,21 @@ object MissFinder {
     }
     
     def divideHighAndLow(center: Int): Tuple2[Int, Int] = {
-      var lower = 0
-      var higher = 0
+      var lower, higher = 0
       
-      val linesSource = Source.fromFile(tempFileName)
-      val lines = linesSource.getLines
-      
-      withPrintWriter2(lowerFileName, higherFileName) {
-        (p1, p2) => {
-          lines.foreach(line => {
-            if (line.toInt > center) { 
-              higher += 1; p2.println(line)
-            } else {
-              lower += 1; p1.println(line)
-            }
-          })          
-        }
+      def plusOneAndPrint(p1: PrintWriter, p2: PrintWriter, line: String) {
+        if (line.toInt > center) { higher += 1; p2.println(line) } 
+        else {lower += 1; p1.println(line)} 
       }
       
-      linesSource.close
+      withFileLines(tempFileName) {
+        lines => {
+          withPrintWriter2(lowerFileName, higherFileName) {
+            (p1, p2) => { lines.foreach { line => plusOneAndPrint(p1, p2, line) }}
+          }          
+        }
+      }
+
       println(" lower : " + lower + ", center : " + center + ", higher : " + higher)
       (lower, higher)
     }
