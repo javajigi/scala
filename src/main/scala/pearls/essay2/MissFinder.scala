@@ -45,15 +45,15 @@ object MissFinder {
     def divideHighAndLow(center: Int): Tuple2[Int, Int] = {
       var lower, higher = 0
       
-      def plusOneAndPrint(p1: PrintWriter, p2: PrintWriter, line: String) {
-        if (line.toInt > center) { higher += 1; p2.println(line) } 
-        else {lower += 1; p1.println(line)} 
+      def plusOneAndPrint(lowerFile: PrintWriter, higherFile: PrintWriter, line: String) {
+        if (line.toInt > center) { higher += 1; higherFile.println(line) } 
+        else {lower += 1; lowerFile.println(line)} 
       }
       
       withFileLines(tempFileName) {
         lines => {
           withPrintWriter2(lowerFileName, higherFileName) {
-            (p1, p2) => { lines.foreach { line => plusOneAndPrint(p1, p2, line) }}
+            (lowerFile, higherFile) => { lines.foreach { line => plusOneAndPrint(lowerFile, higherFile, line) }}
           }          
         }
       }
