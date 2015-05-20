@@ -1,4 +1,4 @@
-package study
+package study.first
 
 import scala.io.Source
 
