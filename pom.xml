@@ -6,6 +6,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<inceptionYear>2008</inceptionYear>
 
+	<properties>
+		<scala.version>2.11.6</scala.version>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>scala-tools.org</id>
@@ -24,6 +28,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
@@ -34,6 +43,11 @@
 			<artifactId>scalatest_2.11</artifactId>
 			<version>2.2.4</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
 		</dependency>
 	</dependencies>
 
@@ -57,17 +71,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
 				<configuration>
 					<downloadSources>true</downloadSources>
+					<sourceIncludes>
+						<sourceInclude>**/*.scala</sourceInclude>
+					</sourceIncludes>
 					<buildcommands>
 						<buildcommand>org.scala-ide.sdt.core.scalabuilder</buildcommand>
 					</buildcommands>
-					<additionalProjectnatures>
-						<projectnature>org.scala-ide.sdt.core.scalanature</projectnature>
-					</additionalProjectnatures>
+					<projectnatures>
+						<nature>org.scala-ide.sdt.core.scalanature</nature>
+						<nature>org.eclipse.jdt.core.javanature</nature>
+					</projectnatures>
 					<classpathContainers>
 						<classpathContainer>org.scala-ide.sdt.launching.SCALA_CONTAINER</classpathContainer>
-						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
 					</classpathContainers>
 				</configuration>
 			</plugin>
