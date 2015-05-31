@@ -21,14 +21,14 @@ class ElementSpec extends FlatSpec with Matchers {
     val second = elem(Array("second"))
     val third = elem(Array("third"))
     
-    first.above(second).above(third) should be(elem(Array("first", "second", "third")))
+    first.above(second).above(third) should be(elem(Array("first ", "second", "third ")))
   }
 
   it should "beside" in {
-	  val first = elem(Array("first"))
+	  val first = elem(Array("first", "first2"))
 	  val second = elem(Array("second"))
-	  val third = elem(Array("third"))
+	  val third = elem(Array("third", "third2"))
 	  
-	  first.beside(second).beside(third) should be (elem(Array("firstsecondthird")))
+	  first.beside(second).beside(third) should be (elem(Array("firstsecondthird", "first2      third2")))
   }
 }
