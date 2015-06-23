@@ -1,33 +1,43 @@
 package study.circuit
 
-class Simulator {
+import study.circuit.Simulator._
+
+object Simulator {
   type Action = () => Unit
+  case class WorkItem(time: Int, action: Action)
+}
+
+class Simulator {
+  private var agenda: List[WorkItem] = List()
   
-  private var agenda: List[Action] = List()
-  
-  def addAction(a: Action) {
-    agenda = agenda :+ a
+  def addWorkItem(item: WorkItem) {
+    agenda = agenda :+ item
   }
   
-  private def next() {
+  def afterDelay(delay: Int)(block: () => Unit) {
+    // after delay
+    block()
+  }  
+  
+  private def next2() {
     (agenda) match {
       case a :: rest =>
         agenda = rest
-        a()
+        afterDelay(a.time)(a.action)
       case _ => // empty
     }
-  }
+  }  
   
   def run() {
-    while(!agenda.isEmpty) next()
-  }
+    while(!agenda.isEmpty) next2()
+  }  
   
   def inverter(input: Wire, output: Wire) {
     def action() {
     	println("inverter [input : " + input + ", output : " + output + "]")
     	output.setSignal(!input.getSignal)
     }
-    addAction(action)
+    addWorkItem(new WorkItem(2, action))
   }
 
   def andGate(input1: Wire, input2: Wire, output: Wire) {
@@ -35,7 +45,7 @@ class Simulator {
     	println("andGate [input1 : " + input1 + ", input2 : " + input2 + ", output : " + output + "]")
     	output.setSignal(input1.getSignal & input2.getSignal)
     }
-    addAction(action)
+    addWorkItem(new WorkItem(3, action))
   }
 
   def orGate(input1: Wire, input2: Wire, output: Wire) {
@@ -43,7 +53,7 @@ class Simulator {
     	println("orGate [input1 : " + input1 + ", input2 : " + input2 + ", output : " + output + "]")
     	output.setSignal(input1.getSignal | input2.getSignal)
     }
-    addAction(action)
+    addWorkItem(new WorkItem(3, action))
   }
   
   def halfAdder(input1: Wire, input2: Wire, s: Wire, c: Wire) {

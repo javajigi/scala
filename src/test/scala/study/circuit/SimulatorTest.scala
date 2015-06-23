@@ -1,6 +1,7 @@
 package study.circuit
 
 import org.scalatest._
+import study.circuit.Simulator._
 
 class SimulatorTest extends FlatSpec with Matchers {
   it should "add action" in {
@@ -11,8 +12,8 @@ class SimulatorTest extends FlatSpec with Matchers {
       println("andGate")
     }
     val sim = new Simulator
-    sim.addAction(action1)
-    sim.addAction(action2)
+    sim.addWorkItem(new WorkItem(3, action1))
+    sim.addWorkItem(new WorkItem(2, action2))
     sim.run()    
   }
   
