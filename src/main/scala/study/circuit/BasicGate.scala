@@ -3,27 +3,18 @@ package study.circuit
 import scala.collection.mutable.MutableList
 
 object BasicGate {
-  class Wire() {
-    private var signal = false
-
-    def getSignal = this.signal
-
-    def setSignal(s: Boolean) {
-      if (s != signal) {
-        this.signal = s
-      }
-    }
-  }
-
   def inverter(input: Wire, output: Wire) {
+    println("inverter [input : " + input + ", output : " + output + "]")
     output.setSignal(!input.getSignal)
   }
 
   def andGate(input1: Wire, input2: Wire, output: Wire) {
+    println("andGate [input1 : " + input1 + ", input2 : " + input2 + ", output : " + output + "]")
     output.setSignal(input1.getSignal & input2.getSignal)
   }
 
   def orGate(input1: Wire, input2: Wire, output: Wire) {
+    println("orGate [input1 : " + input1 + ", input2 : " + input2 + ", output : " + output + "]")
     output.setSignal(input1.getSignal | input2.getSignal)
   }
   
