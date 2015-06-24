@@ -81,6 +81,7 @@ object Simulator2 {
 
     def afterDelay(delay: Int)(block: => Unit) {
       val item = WorkItem(currentTime + delay, () => block)
+      println(item)
       agenda = insert(agenda, item)
     }
 
@@ -129,10 +130,10 @@ object MySimulation2 extends Simulator2.CircuitSimulation {
     val input1, input2, sum, carry = new Wire
     probe("sum", sum)
     probe("carry", carry)
-    // run()
-    //    halfAdder(input1, input2, sum, carry)
-    //    input1 setSignal true
-    //    run()
+    halfAdder(input1, input2, sum, carry)
+    run()
+    input1 setSignal true
+    run()
     //    input2 setSignal true
     //    run()
   }
