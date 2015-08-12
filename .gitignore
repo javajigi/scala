@@ -1,5 +1,6 @@
 /bin/
 /.cache
+/.idea
 /project/
 /target/
 /.classpath
