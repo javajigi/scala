@@ -35,6 +35,6 @@ object AsyncWebClient extends WebClient {
 
 object WebClientTest extends App {
   import scala.concurrent.ExecutionContext.Implicits.global
-  AsyncWebClient get "http://www.google.com/1" map println foreach (_ => AsyncWebClient.shutdown())
+  AsyncWebClient get "http://www.slipp.net" map println foreach (_ => AsyncWebClient.shutdown())
 }
 
