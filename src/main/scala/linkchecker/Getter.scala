@@ -1,40 +1,36 @@
 package linkchecker
 
-import akka.actor.{ActorLogging, Status, Actor}
+import akka.actor.Actor
+import akka.pattern.pipe
+import java.util.concurrent.Executor
+import akka.actor.ActorLogging
+import akka.actor.Status
+import org.jsoup.Jsoup
+import scala.concurrent.ExecutionContext
 
-import scala.util.{Failure, Success}
+import scala.collection.JavaConverters._
 
-object Getter {
-  case object GetUrl
-  case object Done
-  case object Abort
-}
+class Getter(url: String, depth: Int) extends Actor {
 
-class Getter(url: String, depth: Int) extends Actor with ActorLogging {
-  import Getter._
+  implicit val executor = context.dispatcher.asInstanceOf[Executor with ExecutionContext]
+  def client: WebClient = AsyncWebClient
 
-//  implicit val exec = context.dispatcher
-//
-//  val future = WebClient.get(url)
-//
-//  future onComplete {
-//    case Success(body) => self ! body
-//    case Failure(err) => self ! Status.Failure(err)
-//  }
+  client get url pipeTo self
 
   def receive = {
-    case GetUrl =>
-      log.debug("GET URL : {}", url)
-      for (link <- WebClient.findLinks(url))
+    case body: String =>
+      for (link <- findLinks(body))
         context.parent ! Controller.Check(link, depth)
-      stop()
-    case _: Status.Failure => stop()
+      context.stop(self)
+    case _: Status.Failure => context.stop(self)
   }
 
-  def stop(): Unit = {
-    context.parent ! Done
-    context.stop(self)
+  def findLinks(body: String): Iterator[String] = {
+    val document = Jsoup.parse(body, url)
+    val links = document.select("a[href]")
+    for {
+      link <- links.iterator().asScala
+
+    } yield link.absUrl("href")
   }
-
-
 }

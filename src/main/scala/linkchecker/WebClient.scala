@@ -1,37 +1,40 @@
 package linkchecker
 
+import scala.concurrent.Future
+import com.ning.http.client.AsyncHttpClient
+import scala.concurrent.Promise
 import java.util.concurrent.Executor
 
-import com.ning.http.client.AsyncHttpClient
-import org.jsoup.Jsoup
+trait WebClient {
+  def get(url: String)(implicit exec: Executor): Future[String]
+}
 
-import scala.concurrent.{Future, Promise}
-import scala.collection.JavaConverters._
+case class BadStatus(status: Int) extends RuntimeException
 
-object WebClient {
-  val client = new AsyncHttpClient
+object AsyncWebClient extends WebClient {
+
+  private val client = new AsyncHttpClient
 
   def get(url: String)(implicit exec: Executor): Future[String] = {
-    val f = client.prepareGet(url).execute()
-    val p = Promise[String]
+    val f = client.prepareGet(url).execute();
+    val p = Promise[String]()
     f.addListener(new Runnable {
-      override def run(): Unit = {
+      def run = {
         val response = f.get
-        if (response.getStatusCode < 400)
+        if (response.getStatusCode / 100 < 4)
           p.success(response.getResponseBodyExcerpt(131072))
-        else
-          p.failure(new IllegalAccessException(s"response : ${response.getStatusCode}"))
+        else p.failure(BadStatus(response.getStatusCode))
       }
     }, exec)
     p.future
   }
 
-  def findLinks(url: String): Iterator[String] = {
-    val document = Jsoup.connect(url).get()
-    val links = document.select("a[href]")
-    for {
-      link <- links.iterator().asScala
-    } yield link.absUrl("href")
-  }
+  def shutdown(): Unit = client.close()
+
+}
+
+object WebClientTest extends App {
+  import scala.concurrent.ExecutionContext.Implicits.global
+  AsyncWebClient get "http://www.google.com/1" map println foreach (_ => AsyncWebClient.shutdown())
 }
 

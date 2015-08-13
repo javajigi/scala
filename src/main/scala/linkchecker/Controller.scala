@@ -1,7 +1,6 @@
 package linkchecker
 
 import akka.actor.{Props, ActorRef, ActorLogging, Actor}
-import linkchecker.Getter.GetUrl
 
 import scala.concurrent.duration._
 
@@ -24,10 +23,9 @@ class Controller extends Actor with ActorLogging {
       if (!cache(url) && depth > 0) {
           val getter = context.actorOf(Props(new Getter(url, depth - 1)))
           children += getter
-          getter ! GetUrl
       }
       cache += url
-    case Getter.Done =>
+    case _ =>
       children -= sender
       if (children.isEmpty) context.parent ! Result(cache)
   }
