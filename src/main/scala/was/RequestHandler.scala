@@ -17,6 +17,8 @@ class RequestHandler(c: Socket) extends Thread {
     val dos = new DataOutputStream(connection.getOutputStream)
     response200Header(dos)
     responseBody(dos, "Hello World!".getBytes)
+    in.close
+    dos.close
   }
 
   private def response200Header(dos: DataOutputStream): Unit = {
