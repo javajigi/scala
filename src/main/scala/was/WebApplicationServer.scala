@@ -1,6 +1,7 @@
 package was
 
 import java.net.{Socket, ServerSocket}
+import java.util.function.Consumer
 
 import org.slf4j.LoggerFactory
 
@@ -34,5 +35,5 @@ class WebApplicationServer {
   def stop(): Unit = {
     listenSocket.close()
   }
-
 }
+
