@@ -25,9 +25,10 @@ class SpiralTest {
 
   @Test
   def spiralStreamToMatrix(): Unit = {
-    val startMatrix =  Array.ofDim[String](3, 3)
-    val stream = List("-", "-", "+", "|", "+", "+")
-    val matrix = spiral.spiralStreamToMatrix(stream, startMatrix, 3, new East, (0, 0))
+    val length = 10
+    val stream = spiral.createSprialArray(List[String](), length, new East)
+    val matrix = spiral.spiralStreamToMatrix(stream, new East, length)
+    spiral.drawSpiral(matrix)
   }
 
   @Test

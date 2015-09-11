@@ -13,7 +13,7 @@ case class West() extends Direction {
 
   override def next() = new North
 
-  override def difference() = (-1, 0)
+  override def difference() = (0, -1)
 }
 
 case class South() extends Direction {
@@ -21,7 +21,7 @@ case class South() extends Direction {
 
   override def next(): Direction = new West
 
-  override def difference() = (0, -1)
+  override def difference() = (1, 0)
 }
 
 case class East() extends Direction {
@@ -29,7 +29,7 @@ case class East() extends Direction {
 
   override def next(): Direction = new South
 
-  override def difference() = (1, 0)
+  override def difference() = (0, 1)
 }
 
 case class North() extends Direction {
@@ -37,6 +37,6 @@ case class North() extends Direction {
 
   override def next(): Direction = new East
 
-  override def difference() = (0, 1)
+  override def difference() = (-1, 0)
 }
 

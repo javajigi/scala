@@ -2,21 +2,33 @@ package study.spiral
 
 
 class Spiral {
-  def spiralStreamToMatrix(stream: List[String], matrix: Array[Array[String]], length: Int, direction: Direction, start: (Int, Int)): Array[Array[String]] = {
+
+  def draw(row: Array[String]): Unit = {
+    row.foreach({
+      case null => print(" ")
+      case s => print(s)
+    })
+    println("")
+  }
+
+  def drawSpiral(matrix: Array[Array[String]]) {
+    matrix.foreach(row => draw(row))
+  }
+
+  def spiralStreamToMatrix(stream: List[String], direction: Direction, length: Int): Array[Array[String]] = {
+    val matrix =  Array.ofDim[String](length, length)
     var d = direction
-    var s = start
+    var s = (0, 0)
     stream.foldLeft(matrix)((m, symbol) => symbol match {
       case "+" => {
-        println("turn")
-        s = s + d.difference()
         matrix(s._1)(s._2) = symbol
         d = d.next()
+        s = s + d.difference()
         matrix
       }
       case _ => {
-        println("keep")
-        s = s + d.difference()
         matrix(s._1)(s._2) = symbol
+        s = s + d.difference()
         matrix
       }
     })
