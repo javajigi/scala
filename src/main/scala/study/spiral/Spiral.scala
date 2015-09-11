@@ -35,6 +35,25 @@ class Spiral {
     matrix
   }
 
+  def spiral(stream: List[String], matrix: Array[Array[String]], position: (Int, Int), direction: Direction): Array[Array[String]] = {
+    stream match {
+      case head :: Nil => {
+        matrix(position._1)(position._2) = head
+        matrix
+      }
+      case "+" :: tail => {
+        matrix(position._1)(position._2) = "+"
+        val nextDirection = direction.next()
+        spiral(tail, matrix, position + nextDirection.difference(), nextDirection)
+      }
+      case head :: tail => {
+        matrix(position._1)(position._2) = head
+        spiral(tail, matrix, position + direction.difference(), direction)
+      }
+    }
+
+  }
+
   def createSprialArray(spiral: List[String], length: Int, direction: Direction): List[String] = {
     if (length == 0) spiral
     else {
