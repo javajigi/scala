@@ -19,22 +19,14 @@ class SpiralTest {
 
   @Test
   def createSpiralArray(): Unit = {
-    val spiralArray = spiral.createSprialArray(List[String](), 6, new East)
+    val spiralArray = spiral.createSpriral(List[String](), 6, new East)
     spiralArray.foreach(println)
-  }
-
-  @Test
-  def spiralStreamToMatrix(): Unit = {
-    val length = 13
-    val stream = spiral.createSprialArray(List[String](), length, new East)
-    val matrix = spiral.spiralStreamToMatrix(stream, new East, length)
-    spiral.drawSpiral(matrix)
   }
 
   @Test
   def myspiral(): Unit = {
     val length = 10
-    val stream = spiral.createSprialArray(List[String](), length, new East)
+    val stream = spiral.createSpriral(List[String](), length, new East)
     val matrix = spiral.spiral(stream, Array.ofDim(length, length), (0, 0), new East)
     spiral.drawSpiral(matrix)
   }
