@@ -21,16 +21,14 @@ object Boggle {
 class Boggle(grid: Array[Array[Char]]) {
   import Boggle._
   def hasWord(y: Int, x: Int, word: String): Boolean = {
-    if (word.isEmpty) {
+    if (!hasCharFromPosition(grid, y, x, word.charAt(0))) {
+      false
+    } else if (word.size == 1) {
       true
     } else {
-      if (hasCharFromPosition(grid, y, x, word.charAt(0))) {
-        println(s"y is ${y}, x is ${x}, char : ${word.charAt(0)}")
-        val positions = getNeighborPositions(y, x);
-        positions.map(p => hasWord(p._1, p._2, word.tail)).contains(true)
-      } else {
-        false
-      }
+      println(s"y is ${y}, x is ${x}, char : ${word.charAt(0)}")
+      val positions = getNeighborPositions(y, x);
+      positions.map(p => hasWord(p._1, p._2, word.tail)).contains(true)
     }
   }
 }
