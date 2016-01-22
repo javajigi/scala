@@ -27,9 +27,9 @@ class BoggleTest {
 
   @Test def hasWordWithGrid2(): Unit = {
     val boggle = new Boggle(grid2)
-    assertTrue(boggle.hasWord(1, 1, "PRETTY"))
+//    assertTrue(boggle.hasWord(1, 1, "PRETTY"))
 //    assertTrue(boggle.hasWord(2, 0, "GIRL"))
-//    assertTrue(boggle.hasWord(1, 2, "REPEAT"))
+    assertTrue(boggle.hasWord(1, 2, "REPEAT"))
 //    assertFalse(boggle.hasWord(1, 1, "PRETTYM"))
   }
 
@@ -42,5 +42,12 @@ class BoggleTest {
     println(Boggle.getNeighborPositions(2, 2))
     println(Boggle.getNeighborPositions(0, 0))
     println(Boggle.getNeighborPositions(4, 4))
+  }
+
+  @Test def takeWhile(): Unit = {
+    (1 to 10).takeWhile(i => {
+      println(s"index : ${i}")
+      i < 5
+    })
   }
 }
