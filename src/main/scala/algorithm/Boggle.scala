@@ -1,5 +1,7 @@
 package algorithm
 
+import scala.collection.immutable.Stack
+
 object Boggle {
   def getNeighborPositions(y: Int, x: Int) = {
     var positions: List[Tuple2[Int, Int]] = Nil
@@ -20,15 +22,19 @@ object Boggle {
 
 class Boggle(grid: Array[Array[Char]]) {
   import Boggle._
+
+  private var finished = false
+
   def hasWord(y: Int, x: Int, word: String): Boolean = {
     if (!hasCharFromPosition(grid, y, x, word.charAt(0))) {
       false
     } else if (word.size == 1) {
+      this.finished = true
       true
     } else {
       println(s"y is ${y}, x is ${x}, char : ${word.charAt(0)}")
       val positions = getNeighborPositions(y, x);
-      positions.map(p => hasWord(p._1, p._2, word.tail)).contains(true)
+      positions.map(p => if(finished) true else hasWord(p._1, p._2, word.tail)).contains(true)
     }
   }
 }
